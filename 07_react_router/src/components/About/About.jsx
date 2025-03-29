@@ -7,7 +7,7 @@ export default function About() {
                 <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
                     <div className="md:5/12 lg:w-5/12">
                         <img
-                            src="https://images.pexels.com/photos/31366995/pexels-photo-31366995/free-photo-of-stylish-woman-posing-in-pink-hoodie.png?auto=compress&cs=tinysrgb&w=600&lazy=load"
+                            src="https://images.pexels.com/photos/4065133/pexels-photo-4065133.jpeg?auto=compress&cs=tinysrgb&w=600"
                             alt="image"
                         />
                     </div>
