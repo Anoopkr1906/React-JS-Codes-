@@ -16,6 +16,7 @@ function App() {
   useEffect(() => {
     authService.getCurrentUser()
     .then((userData) => {
+      console.log("Current user data:", userData); // Debug log
       if(userData){
         dispatch(login({userData}));
       }
@@ -23,7 +24,10 @@ function App() {
         dispatch(logout());
       }
     })
-
+    .catch((error) => {
+      console.log("Error getting current user:", error); // Debug log
+      dispatch(logout());
+    })
     .finally(() => {
       setLoading(false);
     })

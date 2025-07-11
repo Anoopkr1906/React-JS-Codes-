@@ -1,7 +1,7 @@
 import React , {useCallback} from 'react'
 import {useForm} from 'react-hook-form'
 import {Button , Input , Select , RTE} from '../index'
-import Service from '../../appwrite/config'
+import service from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -18,17 +18,22 @@ export default function PostForm({post}) {
         });
 
         const navigate = useNavigate();
-        const userData = useSelector(state => state.user.userData);
+        const userData = useSelector((state) => state.auth?.userData);
+        console.log("User data in PostForm:", userData); // Debug log
 
         const submit = async (data) => {
+            if (!userData) {
+                console.error("No user data available");
+                return;
+            }
             if (post) {
-                const file = data.image[0] ? await Service.uploadFile(data.image[0]) : null;
+                const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
     
                 if (file) {
-                    Service.deleteFile(post.featuredImage);
+                    service.deleteFile(post.featuredImage);
                 }
     
-                const dbPost = await appwriteService.updatePost(post.$id, {
+                const dbPost = await service.updatePost(post.$id, {
                     ...data,
                     featuredImage: file ? file.$id : undefined,
                 });
@@ -38,12 +43,12 @@ export default function PostForm({post}) {
                 }
             } 
             else {
-                const file = await Service.uploadFile(data.image[0]);
+                const file = await service.uploadFile(data.image[0]);
     
                 if (file) {
                     const fileId = file.$id;
                     data.featuredImage = fileId;
-                    const dbPost = await Service.createPost({ ...data, userId: userData.$id });
+                    const dbPost = await service.createPost({ ...data, userId: userData?.$id });
     
                     if (dbPost) {
                         navigate(`/post/${dbPost.$id}`);
@@ -107,7 +112,7 @@ export default function PostForm({post}) {
             {post && (
                 <div className="w-full mb-4">
                     <img
-                        src={Service.getFilePreview(post.featuredImage)}
+                        src={service.getFileView(post.featuredImage)}
                         alt={post.title}
                         className="rounded-lg"
                     />
