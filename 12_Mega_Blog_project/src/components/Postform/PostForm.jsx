@@ -18,8 +18,12 @@ export default function PostForm({post}) {
         });
 
         const navigate = useNavigate();
-        const userData = useSelector((state) => state.auth?.userData);
+        const authState = useSelector((state) => state.auth);
+        const userData = authState?.userData;
         console.log("User data in PostForm:", userData); // Debug log
+        console.log("Auth state:", authState);
+        console.log("User data in PostForm:", userData);
+        console.log("Auth status:", authState?.status);
 
         const submit = async (data) => {
             if (!userData) {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 //below is to make an alias name for any import
-import { login as authLogin } from "../store/AuthSlice";
+import { login } from "../store/AuthSlice";
 import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/Auth";
@@ -25,7 +25,7 @@ function Login() {
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
-          dispatch(authLogin(userData));
+          dispatch(login({userData}));
           navigate("/");
         }
       }
